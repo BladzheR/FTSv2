@@ -13,7 +13,7 @@
 #define BUF_SIZE 1024
 
 //test gub :)
-
+//testttttt
 int numberOfFiles = 0;
 int sock, listener;      // дескрипторы сокетов
 
