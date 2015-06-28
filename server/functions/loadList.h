@@ -31,7 +31,7 @@ int loadList() {
     closedir(dir);
 
     //Задержка
-    usleep(1000);
+    usleep(1);
     //
 
     return 0;

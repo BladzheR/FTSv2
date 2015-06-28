@@ -21,7 +21,7 @@ int fileTransferSend(char pathToFile[]) {
         perror("send[10]");
     }
 
-    sleep(2);
+    usleep(1);
 
     int i = 0;
     do {

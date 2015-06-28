@@ -14,7 +14,7 @@ int fileTransferRecv(char pathToFile[]) {
         perror("recv[10]");
     }
 
-    sleep(1);
+    usleep(1);
 
     int rc;
     fd_set fdr;

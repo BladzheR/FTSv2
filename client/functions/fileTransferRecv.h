@@ -19,7 +19,7 @@ int fileTransferRecv() {
     long info = (fsize / BUF_SIZE) + 1;
     printf("%lu пакетов будет получено.\n", info);
 
-    sleep(2);
+    usleep(1);
 
     int rc;
     fd_set fdr;

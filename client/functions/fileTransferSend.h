@@ -16,7 +16,7 @@ int fileTransferSend(char pathToFile[]) {
         perror("send[10]");
     }
 
-    sleep(1);
+    usleep(1);
 
     do {
         readed = fread(buffer, 1, BUF_SIZE, f);
