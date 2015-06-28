@@ -1,18 +1,18 @@
 int downloadFile() {
 
-    int k = 0, i = 0, number;
+    int k = 0, i = 0, number = 0, check = 0;
     char pathToFile[] = pathToLoad;
     char fileName[sizeName];
 
     printf("Введите номер файла который желаете скачать:");
     scanf("%d", &number);
 
-    if ((send(sock, (char *) &number, 4, 0)) < 0) {
+    if ((send(sock, &number, sizeof(number), 0)) < 0) {
         perror("send[4]");
     }
 
-    recv(sock, &i, sizeof(i), 0);
-    if (i != 0) {
+    recv(sock, &check, sizeof(check), 0);
+    if (check == 0) {
         printf("В данный момент файла под данным номером не существует.Файл не скачен!\n");
     } else {
         FILE *f0;
@@ -58,7 +58,7 @@ int downloadFile() {
             perror("recv[10]");
         }
 
-        sleep(1);
+        usleep(1);
 
         int rc;
         fd_set fdr;

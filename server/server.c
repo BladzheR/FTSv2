@@ -101,7 +101,7 @@ void settingsServer(){
 void workingServer(){
 
     int counter = 0, number = 0, result = 0, *getCommand= &number;
-    pid_t pid;
+//    pid_t pid;
 
     while (result != 1) { //для подкл.клиентов.
 
@@ -111,13 +111,13 @@ void workingServer(){
             exit(3);
         }
 
-        pid = fork();
-        switch (pid) {
-            case -1:
-                perror("fork");
-                exit(1);
-            case 0:
-                close(listener);
+//        pid = fork();
+//        switch (pid) {
+//            case -1:
+//                perror("fork");
+//                exit(1);
+//            case 0:
+//                close(listener);
 
                 printf("К серверу подключился клиент!\n");
 
@@ -147,12 +147,12 @@ void workingServer(){
                         //close(sock);
                         break;
                     }
-                }
-            default:
-                //wait(0);
-                close(sock);
-//                close(listener);
-                //_exit(0);
+//                }
+//            default:
+//                //wait(0);
+//                close(sock);
+////                close(listener);
+//                //_exit(0);
         }
     }
 }

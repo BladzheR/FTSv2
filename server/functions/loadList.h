@@ -1,5 +1,7 @@
 int loadList() {
 
+    printf("\nИдёт обновления списка файлов...\n");
+
     DIR *dir;
     struct dirent *entry;
 
@@ -29,6 +31,8 @@ int loadList() {
 
     fclose(f);
     closedir(dir);
+
+    printf("Список файлов обновлен!\n\n");
 
     //Задержка
     usleep(1);

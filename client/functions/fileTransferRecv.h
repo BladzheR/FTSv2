@@ -21,7 +21,7 @@ int fileTransferRecv() {
 
     usleep(1);
 
-    int rc;
+    int rc = 0;
     fd_set fdr;
     FD_ZERO(&fdr);
     FD_SET(sock, &fdr);

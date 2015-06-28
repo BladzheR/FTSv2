@@ -9,15 +9,15 @@ int downloadFile() {
 
     printf("%d кол-во файлов на сервере.\n", numberOfFiles);
 
-    if (number < 0 || number > numberOfFiles) { //>=
-        i++;
+    if (number < 0 && number > numberOfFiles) { //>=
 
-        if ((send(sock, (char *) &i, sizeof(i), 0)) < 0) {
+
+        if ((send(sock, 0, sizeof(0), 0)) < 0) {
             perror("send[4]");
         }
     } else {
-
-        if ((send(sock, (char *) &i, sizeof(i), 0)) < 0) {
+        i++;
+        if ((send(sock, &i, sizeof(i), 0)) < 0) {
             perror("send[5]");
         }
         printf("Клиент скачал файл под номером:%d\n", number);

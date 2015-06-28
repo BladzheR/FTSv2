@@ -61,7 +61,7 @@ int navigation(int getCommand) {
     }
     else if (getCommand == commandFive) {
         system("clear");
-        kill (getppid(),SIGKILL);
+        //kill (getppid(),SIGKILL);
         printf("Получена команда на завершение работы сервера!\nРабота сервера завершена!\n");
         return 1;
     }

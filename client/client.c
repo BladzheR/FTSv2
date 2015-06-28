@@ -53,6 +53,7 @@ void settingsClient(){
 
     if (connect(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) { // установка соединения с сервером
         perror("connet");
+        printf("Возможно, сервер не запущен!\n");
         close(sock);
         exit(2);
     } else {
@@ -85,7 +86,7 @@ void workingClient(){
 
         printf("Отправляю сообщение серверу.\n");
 
-        if ((send(sock, (char *) &number, sizeof(int), 0)) < 0) {
+        if ((send(sock, &number, sizeof(int), 0)) < 0) {
             perror("send[0]");
         }
 

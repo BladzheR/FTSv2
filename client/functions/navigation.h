@@ -50,7 +50,9 @@ int navigation(int getTeam) {
         printf("Вы успешно завершили работу сервера и программы клиент!\n");
         return 1;
     }
-    else if (getTeam == commandSeven) {
+    else if (getTeam == commandSix){
+        printf("\nСписок файлов обновлен!\n");
+    }else if (getTeam == commandSeven) {
         system("clear");
     }
     return 0;
