@@ -16,7 +16,7 @@ int fileExists(){
 
 int navigation(int getTeam) {
     if (getTeam == commandZero) {
-        if (displayListFiles(sock) != 0) {
+        if (displayListFiles() != 0) {
             perror("displayListFiles:");
         }
     }
