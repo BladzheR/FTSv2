@@ -10,7 +10,7 @@ int addFile() {
     if(check == 1){
         printf("Введите имя файла с расширением[text.txt]:");
         scanf("%s", fileName);
-///доработать!!!
+///доработать!!!!!!
         strcat(pathToFile, fileName);
         printf("\n%s\n", fileName);
     }else if (check == 2){
