@@ -5,15 +5,46 @@ int addFile() {
 
     printf("\nВыбрерите вариант загрузки файла на сервер:\n1)Из папки клиента PushOnServer.\n"
                    "2)Ввести свой путь.\n");
-    scanf("%d",&check);
+    scanf("%d", &check);
 
-    if(check == 1){
+    if ((send(sock, &check, sizeof(check), 0)) < 0) {
+        perror("send[0]");
+    }
+
+    if (check == 1) {
+
         printf("Введите имя файла с расширением[text.txt]:");
         scanf("%s", fileName);
 ///доработать!!!
-        strcat(pathToFile, fileName);
+        char *path = "pushOnServer/";
+        strcat(path, fileName);
         printf("\n%s\n", fileName);
-    }else if (check == 2){
+
+
+        FILE *f;
+        if (!(f = fopen(fileName, "r"))) {
+            printf("Файл не найден!\n");
+            i++;
+        }
+
+        if ((send(sock, &i, sizeof(i), 0)) < 0) {
+            perror("send[1]");
+        }
+
+        if (i == 0) {
+
+            if ((send(sock, fileName, sizeof(fileName), 0)) < 0) {
+                perror("send[2]");
+            }
+
+            fileTransferSend(pathToFile);
+
+            fclose(f);
+        }
+
+
+    } else if (check == 2) {
+
         printf("Введите путь к файлу[/home/bladzher/Загрузки/]:");
         scanf("%s", pathToFile);
 
@@ -28,7 +59,7 @@ int addFile() {
             i++;
         }
 
-        if ((send(sock, (char *) &i, 4, 0)) < 0) {
+        if ((send(sock, &i, sizeof(i), 0)) < 0) {
             perror("send[1]");
         }
 
@@ -41,7 +72,7 @@ int addFile() {
             fileTransferSend(pathToFile);
 
             fclose(f);
-    }
+        }
 
         printf("Файл успешно добавлен!\n");
     }
