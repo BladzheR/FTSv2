@@ -58,7 +58,7 @@ int downloadFile() {
             perror("recv[10]");
         }
 
-        usleep(1);
+        //usleep(1);
 
         int rc;
         fd_set fdr;

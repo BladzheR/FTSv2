@@ -35,7 +35,7 @@ int loadList() {
     printf("Список файлов обновлен!\n\n");
 
     //Задержка
-    usleep(1);
+    //usleep(1);
     //
 
     return 0;

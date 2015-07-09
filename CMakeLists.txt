@@ -3,7 +3,7 @@ project(FileTransferSystem)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES server/server.c client/client.c )
+set(SOURCE_FILES server/server.c client/client.c)
 add_executable(
  FileTransferSystem ${SOURCE_FILES}
  server/functions/addFile.h
@@ -24,5 +24,4 @@ add_executable(
 
  server/server.c
 
- client/client.c
- )
+ client/client.c)
