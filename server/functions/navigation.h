@@ -2,11 +2,11 @@ enum {
     commandZero, commandOne, commandTwo, commandTree, commandFour, commandFive, commandSix
 };
 
-void fileExists(){
+void fileExists() {
 
     FILE *list;
     list = fopen("list.xml", "a+");
-    if(fgetc(list) == EOF){
+    if (fgetc(list) == EOF) {
         printf("\nСписок файлов пуст, либо не существует!\nСоздам список,если его нет.\nОбновил список файлов!\n\n");
         loadList();
     }
@@ -39,17 +39,24 @@ int navigation(int getCommand) {
     }
     else if (getCommand == commandTree) {
 
-//        fileExists();
-//
-//        if (fileTransferSend(pathToList) != 0) {
-//            perror("fileTransferSend:");
-//        }
-//
-//        if (loadList() != 0) {
-//            perror("loadList:");
-//        }
+        fileExists();
 
-            if (downloadFile() != 0) {
+        int proof = 0;
+        if ((recv(sock, &proof, sizeof(proof), 0)) < 0) {
+            perror("recv[0]");
+        }
+        if(proof == 1) {
+
+            if (fileTransferSend(pathToList) != 0) {
+                perror("fileTransferSend:");
+            }
+        }
+
+        if (loadList() != 0) {
+            perror("loadList:");
+        }
+
+        if (downloadFile() != 0) {
             perror("downloadFile:");
         }
     }

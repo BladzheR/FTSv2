@@ -77,7 +77,7 @@ int downloadFile() {
             fsize+=rcv_len;
             printf("\n%lu\n%lu\n", fsize, rcv_len);
             fwrite(buffer, 1, (size_t) rcv_len, f);
-            rc = select(sock + 1, &fdr, NULL, NULL, &timeout);    ///ждём данные для чтения в потоке 1 сек.
+            rc = select(sock + 5, &fdr, NULL, NULL, &timeout);    ///ждём данные для чтения в потоке 1 сек.
         } while (fsize != info && rc );     ///проверяем результат
 
         fclose(f);

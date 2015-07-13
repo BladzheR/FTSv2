@@ -8,7 +8,7 @@
 #define pathToLoad "Загрузки/"
 #define sizeName 256
 #define pathToList "list.xml"
-#define BUF_SIZE 1024
+#define BUF_SIZE 4094
 
 char message[1024];
 int sock;                // дескриптор сокета
