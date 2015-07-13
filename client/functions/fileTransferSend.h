@@ -12,7 +12,7 @@ int fileTransferSend(char pathToFile[]) {
     int fsize = (int) ftell(f);
     rewind(f);
 
-    if ((send(sock, (char *) &fsize, sizeof(int), 0)) < 0) {
+    if ((send(sock, &fsize, sizeof(fsize), 0)) < 0) {
         perror("send[10]");
     }
 

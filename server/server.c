@@ -128,7 +128,7 @@ void workingServer(){
                     }
                     do {
                         printf("Ожидаем команду:\n");
-                        if ((recv(sock, (void *) &number, sizeof(int), 0)) < 0) {
+                        if ((recv(sock, &number, sizeof(number), 0)) < 0) {
                             perror("recv[0]");
                         }
                         if(*getCommand < 7 && *getCommand >= 0){

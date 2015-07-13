@@ -17,7 +17,7 @@ int fileTransferSend(char pathToFile[]) {
     char buffer[BUF_SIZE];
     long sended = 0, readed = 0;
 
-    if ((send(sock, (char *) &fsize, sizeof(int), 0)) < 0) {
+    if ((send(sock, &fsize, sizeof(fsize), 0)) < 0) {
         perror("send[10]");
     }
 

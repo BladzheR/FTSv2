@@ -86,7 +86,7 @@ void workingClient(){
 
         printf("Отправляю сообщение серверу.\n");
 
-        if ((send(sock, &number, sizeof(int), 0)) < 0) {
+        if ((send(sock, &number, sizeof(number), 0)) < 0) {
             perror("send[0]");
         }
 
