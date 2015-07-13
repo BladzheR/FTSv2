@@ -10,11 +10,11 @@ int downloadFile() {
     if ((send(sock, &number, sizeof(number), 0)) < 0) {
         perror("send[4]");
     }
-
+    printf("check:%d\n", check);
     recv(sock, &check, sizeof(check), 0);
-    if (check == 0) {
-        printf("В данный момент файла под данным номером не существует.Файл не скачен!\n");
-    } else {
+    printf("check:%d\n", check);
+    if (check != 0) {
+
         FILE *f0;
         if (!(f0 = fopen(pathToList, "rb"))) {
             perror("fopen:");
@@ -58,6 +58,9 @@ int downloadFile() {
             perror("recv[10]");
         }
 
+        long info = (fsize / BUF_SIZE) + 1;
+        printf("Размер файла:%lu\n%lu пакетов будет получено.\n", fsize, info);
+
         //usleep(1);
 
         int rc;
@@ -68,14 +71,19 @@ int downloadFile() {
         timeout.tv_sec = 1;   ///зададим  структуру времени со значением 1 сек
         timeout.tv_usec = 0;
 
+        fsize =0;
         do {
             rcv_len = recv(sock, buffer, BUF_SIZE, 0);
+            fsize+=rcv_len;
+            printf("\n%lu\n%lu\n", fsize, rcv_len);
             fwrite(buffer, 1, (size_t) rcv_len, f);
             rc = select(sock + 1, &fdr, NULL, NULL, &timeout);    ///ждём данные для чтения в потоке 1 сек.
-        } while (rc);     ///проверяем результат
+        } while (fsize != info && rc );     ///проверяем результат
 
         fclose(f);
         printf("\nФайл успешно скачен!\n");
+    } else {
+        printf("В данный момент файла под данным номером не существует.Файл не скачен!\n");
     }
     return 0;
 }

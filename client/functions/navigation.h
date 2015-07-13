@@ -32,9 +32,9 @@ int navigation(int getTeam) {
     }
     else if (getTeam == commandTree) {
 
-        if(fileExists() != 0){
-            perror("fileExists");
-        }
+//        if(fileExists() != 0){
+//            perror("fileExists");
+//        }
 
         if (downloadFile() != 0) {
             perror("downloadFile");

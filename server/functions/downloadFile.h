@@ -9,17 +9,14 @@ int downloadFile() {
 
     printf("%d кол-во файлов на сервере.\n", numberOfFiles);
 
-    if (number < 0 && number > numberOfFiles) { //>=
+    printf("number:%d\nnumberOfFiles:%d\n", number, numberOfFiles);
+    if (number >= 0 && number <= numberOfFiles) { //>=
 
-
-        if ((send(sock, 0, sizeof(0), 0)) < 0) {
-            perror("send[4]");
-        }
-    } else {
         i++;
         if ((send(sock, &i, sizeof(i), 0)) < 0) {
-            perror("send[5]");
+            perror("send[5.0]");
         }
+
         printf("Клиент скачал файл под номером:%d\n", number);
         number--;
 
@@ -63,6 +60,12 @@ int downloadFile() {
         fileTransferSend(pathToFile);
 
         printf("\nКлиент скачал файл:%s\n", pathToFile);
+
+    } else {
+        i = 0;
+        if ((send(sock, &i, sizeof(i), 0)) < 0) {
+            perror("send[5.1]");
+        }
     }
     return 0;
 }

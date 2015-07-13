@@ -39,15 +39,15 @@ int navigation(int getCommand) {
     }
     else if (getCommand == commandTree) {
 
-        fileExists();
-
-        if (fileTransferSend(pathToList) != 0) {
-            perror("fileTransferSend:");
-        }
-
-        if (loadList() != 0) {
-            perror("loadList:");
-        }
+//        fileExists();
+//
+//        if (fileTransferSend(pathToList) != 0) {
+//            perror("fileTransferSend:");
+//        }
+//
+//        if (loadList() != 0) {
+//            perror("loadList:");
+//        }
 
             if (downloadFile() != 0) {
             perror("downloadFile:");
