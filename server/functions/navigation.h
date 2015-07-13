@@ -51,7 +51,6 @@ int navigation(int getCommand) {
                 perror("fileTransferSend:");
             }
         }
-//test
         if (loadList() != 0) {
             perror("loadList:");
         }
