@@ -1,6 +1,6 @@
 int addFile() {
 
-    int i = 0, check = 0;
+    int i = 0, check = 0, result = 0;
     char fileName[sizeName];
 
     printf("\nВыбрерите вариант загрузки файла на сервер:\n1)Из папки клиента PushOnServer.\n"
@@ -25,11 +25,10 @@ int addFile() {
         if (!(f = fopen(pathToFile, "r"))) {
             perror("Файл не найден!");
             i++;
-        }
-
-        if ((send(sock, &i, sizeof(i), 0)) < 0) {
+        }else if ((send(sock, &i, sizeof(i), 0)) < 0) {
             perror("send[1]");
         }
+        fclose(f);
 
         if (i == 0) {
 
@@ -37,15 +36,17 @@ int addFile() {
                 perror("send[2]");
             }
 
-            if(fileExists() != 0){
+            result = fileExists();
+            if(result == 1){
+
+            }else if(result == 0){
+
+                fileTransferSend(pathToFile);
+                printf("\nФайл успешно добавлен на сервер!\n");
+
+            }else {
                 perror("fileExitst:");
             }
-
-            fileTransferSend(pathToFile);
-
-            printf("\nФайл успешно добавлен на сервер!\n");
-
-            fclose(f);
         }
 
 

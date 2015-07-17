@@ -68,9 +68,8 @@ int navigation(int getCommand) {
     }
     else if (getCommand == commandFive) {
         system("clear");
-        kill (pid,SIGKILL);
-        printf("Получена команда на завершение работы сервера!\nРабота сервера завершена!\n");
-        return 1;
+        printf("Получена команда на принудительное завершение работы сервера!\n");
+        kill (pid,SIGTERM );
     }
     else if (getCommand == commandSix) {
         if (loadList() != 0) {

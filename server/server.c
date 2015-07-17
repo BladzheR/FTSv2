@@ -37,23 +37,6 @@ int pid;
 #include "functions/listFilesExists.h"
 #include "functions/navigation.h"
 
-//void die(int sig)
-//{
-//    puts("\nПрощай, жестокий мир...\n");
-//    exit(1);
-//}
-//
-// if(catch_signal(SIGINT, ) == )
-//
-//int catch_signal(int sig, void (*handler)(int))
-//{
-//    struct sigaction action;
-//    action.sa_handler = handler;
-//    sigemptyset(&action.sa_mask);
-//    action.sa_flags = 0;
-//    return sigaction(sig, &action, NULL);
-//}
-
 void runDaemon(){
     pid_t pidDaemonFTS = daemon(0,0); //     демон - запуск отдельно от терминала...
     if ( pidDaemonFTS == -1 ) {
@@ -147,15 +130,11 @@ void workingServer(){
                         close(sock);
                         break;
                     }else if(result == 2){
-                        //close(sock);
                         break;
                     }
                 }
             default:
-                //wait(0);
                 close(sock);
-//                close(listener);
-                //_exit(0);
         }
     }
 }
