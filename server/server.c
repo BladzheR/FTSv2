@@ -97,13 +97,13 @@ void workingServer(){
             exit(3);
         }
 
-        pid = fork();
-        switch (pid) {
-            case -1:
-                perror("fork");
-                exit(1);
-            case 0:
-                close(listener);
+        //pid = fork();
+//        switch (pid) {
+//            case -1:
+//                perror("fork");
+//                exit(1);
+//            case 0:
+//                close(listener);
 
                 printf("К серверу подключился клиент!\n");
 
@@ -133,9 +133,9 @@ void workingServer(){
                         break;
                     }
                 }
-            default:
-                close(sock);
-        }
+//            default:
+//                close(sock);
+//        }
     }
 }
 

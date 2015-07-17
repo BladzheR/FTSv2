@@ -1,5 +1,9 @@
 int addFile() {
 
+    /*
+     * Доработать 2)Ввести свой путь!!!
+     */
+
     int i = 0, check = 0, result = 0;
     char fileName[sizeName];
 
@@ -14,7 +18,7 @@ int addFile() {
     if (check == 1) {
 
         char pathToFile[]="/home/ksergey/projects/clion/FileTransferSystem_v2/trunk/client/pushOnServer/";
-        printf("Введите имя файла с расширением.В имени фала не должно быть пробелов!(!!!ДОРАБОТАТЬ!!!)[text.txt]:");
+        printf("Введите имя файла с расширением.В имени фала не должно быть пробелов![text.txt]:");
         scanf("%s", fileName);
 
         strcat(pathToFile, fileName);
@@ -38,6 +42,8 @@ int addFile() {
 
             result = fileExists();
             if(result == 1){
+
+                return 0;
 
             }else if(result == 0){
 
@@ -78,12 +84,23 @@ int addFile() {
                 perror("send[2]");
             }
 
-            fileTransferSend(pathToFile);
+            result = fileExists();
+            if (result == 1) {
+                fclose(f);
+                return 0;
 
-            fclose(f);
+            } else if (result == 0) {
+
+                fileTransferSend(pathToFile);
+
+                printf("Файл успешно добавлен!\n");
+
+            } else {
+                perror("fileExitst:");
+            }
+        }
+        fclose(f);
         }
 
-        printf("Файл успешно добавлен!\n");
-    }
     return 0;
 }

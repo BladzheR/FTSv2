@@ -87,11 +87,24 @@ int addFile() {
             if ((recv(sock, fileName, sizeof(fileName), 0)) < 0) {
                 perror("recv[2]");
             }
+
+            result = fileExists(fileName);
+            if (result == 1) {
+
+                if ((send(sock, &result, sizeof(result), 0)) < 0) {
+                    perror("send[0]");
+                }
+
+            } else if (result == 0) {
+
             strcat(pathToFile, fileName);
 
             fileTransferRecv(pathToFile);
 
             printf("\n\nКлиент успешно добавил файл на сервер:%s\n\n", pathToFile);
+        } else {
+            perror("fileExists:");
+        }
         } else {
             return 1;
         }
