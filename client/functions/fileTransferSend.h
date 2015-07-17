@@ -9,8 +9,11 @@ int fileTransferSend(char pathToFile[]) {
     }
 
     fseek(f, 0, SEEK_END);
-    int fsize = (int) ftell(f);
+    long fsize = ftell(f);
     rewind(f);
+
+    long info = (fsize / BUF_SIZE) + 1;
+    printf("Размер файла:%lu\n%lu пакетов будет отправлено.\n", fsize, info);
 
     if ((send(sock, &fsize, sizeof(fsize), 0)) < 0) {
         perror("send[10]");

@@ -71,7 +71,7 @@ int downloadFile() {
         timeout.tv_sec = 1;   ///зададим  структуру времени со значением 1 сек
         timeout.tv_usec = 0;
 
-        fsize =0;
+        fsize = 0;
         do {
             rcv_len = recv(sock, buffer, BUF_SIZE, 0);
             fsize+=rcv_len;
@@ -81,7 +81,7 @@ int downloadFile() {
         } while (fsize != info && rc );     ///проверяем результат
 
         fclose(f);
-        printf("\nФайл успешно скачен!\n");
+        printf("\nФайл успешно скачен!(%s)\n", fileName);
     } else {
         printf("В данный момент файла под данным номером не существует.Файл не скачен!\n");
     }

@@ -1,7 +1,7 @@
 int addFile() {
 
     int i = 0, check = 0;
-    char pathToFile[sizeName], fileName[sizeName];
+    char fileName[sizeName];
 
     printf("\nВыбрерите вариант загрузки файла на сервер:\n1)Из папки клиента PushOnServer.\n"
                    "2)Ввести свой путь.\n");
@@ -13,17 +13,17 @@ int addFile() {
 
     if (check == 1) {
 
+        char pathToFile[]="/home/ksergey/projects/clion/FileTransferSystem_v2/trunk/client/pushOnServer/";
         printf("Введите имя файла с расширением[text.txt]:");
         scanf("%s", fileName);
-///доработать!!!
-        char *path = "pushOnServer/";
-        strcat(path, fileName);
-        printf("\n%s\n", fileName);
 
+        strcat(pathToFile, fileName);
+
+        printf("Путь до файла:%s\n\n", pathToFile);
 
         FILE *f;
-        if (!(f = fopen(fileName, "r"))) {
-            printf("Файл не найден!\n");
+        if (!(f = fopen(pathToFile, "r"))) {
+            perror("Файл не найден!");
             i++;
         }
 
@@ -44,6 +44,8 @@ int addFile() {
 
 
     } else if (check == 2) {
+
+        char pathToFile[sizeName];
 
         printf("Введите путь к файлу[/home/bladzher/Загрузки/]:");
         scanf("%s", pathToFile);

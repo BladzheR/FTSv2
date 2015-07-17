@@ -32,6 +32,7 @@ int sock, listener;      // дескрипторы сокетов
 #include "functions/addFile.h"
 #include "functions/deleteFile.h"
 #include "functions/downloadFile.h"
+#include "functions/fileExists.h"
 #include "functions/navigation.h"
 
 //void die(int sig)
