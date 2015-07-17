@@ -1,7 +1,7 @@
 int downloadFile() {
 
     int i = 0, k = 0, q = 0, number = 0;
-    char fileName[sizeName], pathToFile[] = pathToFolers;
+    char fileName[sizeName], pathToFile[] = pathToFolders;
 
     if ((recv(sock, (void *) &number, 4, 0)) < 0) {
         perror("recv[4]");

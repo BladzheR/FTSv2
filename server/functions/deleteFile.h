@@ -1,24 +1,20 @@
 int deleteFile() {
 
     int number = 0, i = 0;
-    int numberOfFiles = 0;
-    if ((recv(sock, &number, 4, 0)) < 0) {
-        perror("recv[3]");
+
+    if ((recv(sock, &number, sizeof(number), 0)) < 0) {
+        perror("recv[0]");
     }
     printf("Получен номер файла для удаления: %d\n", number);
 
-    if (number < 0 || number >= numberOfFiles) {
+    if (number < 0 && number > numberOfFiles) {
         i++;
 
-        if ((send(sock, (char *) &i, sizeof(i), 0)) < 0) {
+        if ((send(sock, &i, sizeof(i), 0)) < 0) {
             perror("send[0]");
         }
 
     } else {
-
-        if ((send(sock, (char *) &i, sizeof(i), 0)) < 0) {
-            perror("send[1]");
-        }
 
         FILE *f0;
         if (!(f0 = fopen(pathToList, "rb"))) {
@@ -40,30 +36,31 @@ int deleteFile() {
                 i++;
             }
         }
+        fclose(f0);
         fileName[i] = '\0';
 
         for (k = 1, i = 0; fileName[i] != ')'; i++) {
             k++;
         }
-        fclose(f0);
-        char pathToFile[] = pathToFolers;
+
+        char pathToFile[] = pathToFolders;
         strcpy(fileName, &fileName[k]);
-        strcat(pathToFile, fileName);
+        strcat(pathToFolder, fileName);
 
         if (remove(pathToFile) == -1) {
-
-            if ((send(sock, "Ошибка при удалении файла.Сервер не удалил файл!", sizeof("Ошибка при удалении файла.Сервер не удалил файл!"), 0)) < 0) {
-                perror("send[2]");
+            i = 0;
+            if ((send(sock, &i, sizeof(i), 0)) < 0) {
+                perror("send[1.0]");
             }
+            printf("Ошибка при удалении файла.Сервер не удалил файл!\n");
 
         } else {
-            printf("\nС сервера удалён файл:%s\n\n", pathToFile);
-            if ((send(sock, "Сервер удалил файл!", sizeof("Сервер удалил файл!"), 0)) < 0) {
-                perror("send[3]");
+            i = 1;
+            if ((send(sock, &i, sizeof(i), 0)) < 0) {
+                perror("send[1.1]");
             }
+            printf("\nС сервера удалён файл:%s\n\n", pathToFile);
         }
-        loadList();
-        fileTransferRecv(pathToList);
     }
     return 0;
 }

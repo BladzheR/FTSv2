@@ -32,6 +32,9 @@ int navigation(int getCommand) {
         if (deleteFile() != 0) {
             perror("deleteFile:");
         }
+        if(loadList() != 0){
+            perror("loadList:");
+        }
     }
     else if (getCommand == commandTree) {
 
@@ -61,11 +64,11 @@ int navigation(int getCommand) {
         system("clear");
         printf("Клиент отключился!\n");
         printf("\nОжидание подключения:\n");
-        return 2;
+        return 1;
     }
     else if (getCommand == commandFive) {
         system("clear");
-        //kill (getppid(),SIGKILL);
+        kill (pid,SIGKILL);
         printf("Получена команда на завершение работы сервера!\nРабота сервера завершена!\n");
         return 1;
     }

@@ -7,13 +7,14 @@
  */
 #define textMenu "\n========================\nМЕНЮ:\n0)Отобразить список файлов\n1)Добавить файл\n2)Удалить файл\n3)Скачать файл\n4)Выход\n5)Выключить сервер\n6)Обновить список файлов\n7)Очистить экран\n8)Поиск\n========================\n"
 #define pathToFolder "files"
-#define pathToFolers "files/"
+#define pathToFolders "files/"
 #define pathToList "list.xml"
 #define sizeName 256
 #define BUF_SIZE 4094
 
 int numberOfFiles = 0;
 int sock, listener;      // дескрипторы сокетов
+int pid;
 
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -103,7 +104,7 @@ void settingsServer(){
 void workingServer(){
 
     int counter = 0, number = 0, result = 0, *getCommand= &number;
-//    pid_t pid;
+
 
     while (result != 1) { //для подкл.клиентов.
 
@@ -113,13 +114,13 @@ void workingServer(){
             exit(3);
         }
 
-//        pid = fork();
-//        switch (pid) {
-//            case -1:
-//                perror("fork");
-//                exit(1);
-//            case 0:
-//                close(listener);
+        pid = fork();
+        switch (pid) {
+            case -1:
+                perror("fork");
+                exit(1);
+            case 0:
+                close(listener);
 
                 printf("К серверу подключился клиент!\n");
 
@@ -149,12 +150,12 @@ void workingServer(){
                         //close(sock);
                         break;
                     }
-//                }
-//            default:
-//                //wait(0);
-//                close(sock);
-////                close(listener);
-//                //_exit(0);
+                }
+            default:
+                //wait(0);
+                close(sock);
+//                close(listener);
+                //_exit(0);
         }
     }
 }
