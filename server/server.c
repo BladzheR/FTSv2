@@ -5,7 +5,7 @@
 * ...........Ultrabook name: /bladzher/
 *******************************************************************************
  */
-#define textMenu "\n========================\nМЕНЮ:\n0)Отобразить список файлов.\n1)Добавить файл.\n2)Удалить файл.\n3)Скачать файл.\n4)Выход.\n5)Выключить сервер.\n6)Обновить список файлов.\n7)Очистить экран\n8)Поиск\n========================\n"
+#define textMenu "\n========================\nМЕНЮ:\n0)Отобразить список файлов\n1)Добавить файл\n2)Удалить файл\n3)Скачать файл\n4)Выход\n5)Выключить сервер\n6)Обновить список файлов\n7)Очистить экран\n8)Поиск\n========================\n"
 #define pathToFolder "files"
 #define pathToFolers "files/"
 #define pathToList "list.xml"
@@ -29,10 +29,11 @@ int sock, listener;      // дескрипторы сокетов
 #include <signal.h>
 #include <stdlib.h>
 #include "functions/fileTransferSend.h"
+#include "functions/fileExitsts.h"
 #include "functions/addFile.h"
 #include "functions/deleteFile.h"
 #include "functions/downloadFile.h"
-#include "functions/fileExists.h"
+#include "functions/listFilesExists.h"
 #include "functions/navigation.h"
 
 //void die(int sig)

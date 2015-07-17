@@ -20,7 +20,7 @@ int navigation(int getTeam) {
     }
     else if (getTeam == commandTree) {
 
-        if (fileExists() != 0) {
+        if (listFilesExists() != 0) {
             perror("fileExists");
         }
 

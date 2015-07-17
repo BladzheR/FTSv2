@@ -16,6 +16,11 @@ int addFile() {
             if ((recv(sock, fileName, sizeof(fileName), 0)) < 0) {
                 perror("recv[2]");
             }
+
+            if(fileExists(fileName) != 0){
+                perror("fileExists:");
+            }
+
             strcat(pathToFile, fileName);
 
             ///

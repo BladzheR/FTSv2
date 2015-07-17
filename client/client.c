@@ -26,8 +26,9 @@ int sock;                // дескриптор сокета
 #include "functions/displayListFiles.h"
 #include "functions/deleteFile.h"
 #include "functions/downloadFile.h"
+#include "functions/fileExitsts.h"
 #include "functions/addFile.h"
-#include "functions/fileExists.h"
+#include "functions/listFilesExists.h"
 #include "functions/navigation.h"
 
 void settingsClient(){

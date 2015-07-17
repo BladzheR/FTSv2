@@ -1,4 +1,4 @@
-int fileExists() {
+int listFilesExists() {
 
     int proof = 0;
     FILE *list;

@@ -5,20 +5,25 @@ enum {
 int navigation(int getCommand) {
     if (getCommand == commandZero) {
 
-        if(fileExists() != 0){
+        if(listFilesExists() != 0){
             perror("fileExists:");
-        }
-
-        if (fileTransferSend(pathToList) != 0) {
-            perror("fileTransferSend:");
         }
 
         if (loadList() != 0) {
             perror("loadList:");
         }
 
+        if (fileTransferSend(pathToList) != 0) {
+            perror("fileTransferSend:");
+        }
+
     }
     else if (getCommand == commandOne) {
+
+        if(loadList() != 0){
+            perror("loadList");
+        }
+
         if (addFile() != 0) {
             perror("addFile:");
         }
@@ -30,7 +35,7 @@ int navigation(int getCommand) {
     }
     else if (getCommand == commandTree) {
 
-        if(fileExists() != 0){
+        if(listFilesExists() != 0){
             perror("fileExists:");
         }
 

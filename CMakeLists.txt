@@ -13,7 +13,8 @@ add_executable(
  server/functions/fileTransferSend.h
  server/functions/loadList.h
  server/functions/navigation.h
- server/functions/fileExists.h
+ server/functions/listFilesExists.h
+ server/functions/fileExitsts.h
 
  client/functions/addFile.h
  client/functions/deleteFile.h
@@ -22,7 +23,8 @@ add_executable(
  client/functions/fileTransferSend.h
  client/functions/navigation.h
  client/functions/displayListFiles.h
- client/functions/fileExists.h
+ client/functions/listFilesExists.h
+ client/functions/fileExitsts.h
 
  server/server.c
 

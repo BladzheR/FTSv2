@@ -14,7 +14,7 @@ int addFile() {
     if (check == 1) {
 
         char pathToFile[]="/home/ksergey/projects/clion/FileTransferSystem_v2/trunk/client/pushOnServer/";
-        printf("Введите имя файла с расширением[text.txt]:");
+        printf("Введите имя файла с расширением.В имени фала не должно быть пробелов!(!!!ДОРАБОТАТЬ!!!)[text.txt]:");
         scanf("%s", fileName);
 
         strcat(pathToFile, fileName);
@@ -37,7 +37,13 @@ int addFile() {
                 perror("send[2]");
             }
 
+            if(fileExists() != 0){
+                perror("fileExitst:");
+            }
+
             fileTransferSend(pathToFile);
+
+            printf("\nФайл успешно добавлен на сервер!\n");
 
             fclose(f);
         }
