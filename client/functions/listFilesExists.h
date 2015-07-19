@@ -10,7 +10,7 @@ int listFilesExists() {
             perror("send[0.0]");
         }
         fileTransferRecv();
-    }else{
+    } else {
         proof = 0;
         if ((send(sock, &proof, sizeof(proof), 0)) < 0) {
             perror("send[0.1]");

@@ -33,7 +33,7 @@ int fileTransferSend(char pathToFile[]) {
         sended += readed;
         i++;
     } while (sended != fsize);
-    printf("Отправлено пакетов:%d.Всего:%lu\n",i , info);
+    printf("Отправлено пакетов:%d.Всего:%lu\n", i, info);
     fclose(f);
 
     return 0;

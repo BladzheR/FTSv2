@@ -8,7 +8,7 @@
 #define pathToLoad "Загрузки/"
 #define sizeName 256
 #define pathToList "list.xml"
-#define BUF_SIZE 4094
+#define BUF_SIZE 1024
 
 char message[1024];
 int sock;                // дескриптор сокета
@@ -31,7 +31,7 @@ int sock;                // дескриптор сокета
 #include "functions/listFilesExists.h"
 #include "functions/navigation.h"
 
-void settingsClient(){
+void settingsClient() {
 
     /*     Указываем параметры сервера    */
     struct sockaddr_in addr; // структура с адресом
@@ -64,7 +64,7 @@ void settingsClient(){
 
 }
 
-void workingClient(){
+void workingClient() {
 
     int counter = 0, number = 0, *getTeam = &number;
     while (1) {
@@ -78,7 +78,7 @@ void workingClient(){
 
         do {
             printf("Введите команду серверу[0-7]:");
-            if((scanf("%d", &number)) == 0){
+            if ((scanf("%d", &number)) == 0) {
                 printf("\n Ошибока ввода :) Как-нибудь в другой раз ...\nЖду 2 секунды и закругляюсь...\n");
                 number = 4;
                 sleep(2);
@@ -102,7 +102,11 @@ void workingClient(){
     close(sock);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+
+    if ((argc == 3) && (((strcmp(argv[1], "admin")) && (strcmp(argv[2], "admin"))) == 0)) {
+        printf("\nВы вошли под правами Администратора!\n\n");
+    }
 
     settingsClient();
     workingClient();

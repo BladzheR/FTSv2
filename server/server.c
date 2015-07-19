@@ -10,7 +10,7 @@
 #define pathToFolders "files/"
 #define pathToList "list.xml"
 #define sizeName 256
-#define BUF_SIZE 4094
+#define BUF_SIZE 1024
 
 int numberOfFiles = 0;
 int sock, listener;      // дескрипторы сокетов
@@ -37,15 +37,15 @@ int pid;
 #include "functions/listFilesExists.h"
 #include "functions/navigation.h"
 
-void runDaemon(){
-    pid_t pidDaemonFTS = daemon(0,0); //     демон - запуск отдельно от терминала...
-    if ( pidDaemonFTS == -1 ) {
+void runDaemon() {
+    pid_t pidDaemonFTS = daemon(0, 0); //     демон - запуск отдельно от терминала...
+    if (pidDaemonFTS == -1) {
         //close(ls);
-        perror( "demonize error!\n");
+        perror("demonize error!\n");
     }
 }
 
-void settingsServer(){
+void settingsServer() {
 
     if ((listener = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {// создаем сокет для входных подключений
         perror("socket");
@@ -69,7 +69,8 @@ void settingsServer(){
 
     setsockopt(listener, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof yes);
 
-    if (bind(listener, (struct sockaddr *) &addr, sizeof(struct sockaddr_in)) < 0) { // связываемся с сетевым устройство. Сейчас это устройство lo - "петля", которое используется для отладки сетевых приложений
+    if (bind(listener, (struct sockaddr *) &addr, sizeof(struct sockaddr_in)) <
+        0) { // связываемся с сетевым устройство. Сейчас это устройство lo - "петля", которое используется для отладки сетевых приложений
         perror("bind");
         close(listener);
         exit(2);
@@ -84,26 +85,27 @@ void settingsServer(){
     printf("Сервер запущен!\n\nОжидание подключения:\n");
 }
 
-void workingServer(){
+void workingServer() {
 
-    int counter = 0, number = 0, result = 0, *getCommand= &number;
+    int counter = 0, number = 0, result = 0, *getCommand = &number;
 
 
     while (result != 1) { //для подкл.клиентов.
 
-        if ((sock = accept(listener, NULL, NULL)) < 0) {// принимаем входные подключение и создаем отделный сокет для каждого нового подключившегося клиента
+        if ((sock = accept(listener, NULL, NULL)) <
+            0) {// принимаем входные подключение и создаем отделный сокет для каждого нового подключившегося клиента
             perror("accept");
             close(listener);
             exit(3);
         }
 
-        //pid = fork();
-//        switch (pid) {
-//            case -1:
-//                perror("fork");
-//                exit(1);
-//            case 0:
-//                close(listener);
+        pid = fork();
+        switch (pid) {
+            case -1:
+                perror("fork");
+                exit(1);
+            case 0:
+                close(listener);
 
                 printf("К серверу подключился клиент!\n");
 
@@ -117,31 +119,31 @@ void workingServer(){
                         if ((recv(sock, &number, sizeof(number), 0)) < 0) {
                             perror("recv[0]");
                         }
-                        if(*getCommand < 7 && *getCommand >= 0){
+                        if (*getCommand < 7 && *getCommand >= 0) {
                             break;
-                        }else{
+                        } else {
                             printf("Получена неверная команда!\n");
                         }
-                    }while(1);
+                    } while (1);
                     printf("Получена команда от клиента: %d\n", *getCommand);
 
                     result = navigation(*getCommand);
                     if (result == 1) {
                         close(sock);
                         break;
-                    }else if(result == 2){
+                    } else if (result == 2) {
                         break;
                     }
                 }
-//            default:
-//                close(sock);
-//        }
+            default:
+                close(sock);
+        }
     }
 }
 
-int main(int argc, char * argv[]) {
+int main(int argc, char *argv[]) {
 
-    if(argc == 2 && strcmp(argv[1], "daemon") == 0){
+    if (argc == 2 && strcmp(argv[1], "daemon") == 0) {
         printf("%s", argv[1]);
         runDaemon();
     }

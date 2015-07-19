@@ -17,7 +17,7 @@ int addFile() {
 
     if (check == 1) {
 
-        char pathToFile[]="/home/ksergey/projects/clion/FileTransferSystem_v2/trunk/client/pushOnServer/";
+        char pathToFile[] = "/home/ksergey/projects/clion/FileTransferSystem_v2/trunk/client/pushOnServer/";
         printf("Введите имя файла с расширением.В имени фала не должно быть пробелов![text.txt]:");
         scanf("%s", fileName);
 
@@ -29,7 +29,7 @@ int addFile() {
         if (!(f = fopen(pathToFile, "r"))) {
             perror("Файл не найден!");
             i++;
-        }else if ((send(sock, &i, sizeof(i), 0)) < 0) {
+        } else if ((send(sock, &i, sizeof(i), 0)) < 0) {
             perror("send[1]");
         }
         fclose(f);
@@ -41,16 +41,16 @@ int addFile() {
             }
 
             result = fileExists();
-            if(result == 1){
+            if (result == 1) {
 
                 return 0;
 
-            }else if(result == 0){
+            } else if (result == 0) {
 
                 fileTransferSend(pathToFile);
                 printf("\nФайл успешно добавлен на сервер!\n");
 
-            }else {
+            } else {
                 perror("fileExitst:");
             }
         }
@@ -100,7 +100,7 @@ int addFile() {
             }
         }
         fclose(f);
-        }
+    }
 
     return 0;
 }

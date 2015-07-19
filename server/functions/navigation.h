@@ -5,7 +5,7 @@ enum {
 int navigation(int getCommand) {
     if (getCommand == commandZero) {
 
-        if(listFilesExists() != 0){
+        if (listFilesExists() != 0) {
             perror("fileExists:");
         }
 
@@ -20,7 +20,7 @@ int navigation(int getCommand) {
     }
     else if (getCommand == commandOne) {
 
-        if(loadList() != 0){
+        if (loadList() != 0) {
             perror("loadList");
         }
 
@@ -29,16 +29,17 @@ int navigation(int getCommand) {
         }
     }
     else if (getCommand == commandTwo) {
+
         if (deleteFile() != 0) {
             perror("deleteFile:");
         }
-        if(loadList() != 0){
+        if (loadList() != 0) {
             perror("loadList:");
         }
     }
     else if (getCommand == commandTree) {
 
-        if(listFilesExists() != 0){
+        if (listFilesExists() != 0) {
             perror("fileExists:");
         }
 
@@ -46,7 +47,7 @@ int navigation(int getCommand) {
         if ((recv(sock, &proof, sizeof(proof), 0)) < 0) {
             perror("recv[0]");
         }
-        if(proof == 1) {
+        if (proof == 1) {
 
             if (fileTransferSend(pathToList) != 0) {
                 perror("fileTransferSend:");
@@ -69,7 +70,7 @@ int navigation(int getCommand) {
     else if (getCommand == commandFive) {
         system("clear");
         printf("Получена команда на принудительное завершение работы сервера!\n");
-        kill (pid,SIGTERM );
+        kill(pid, SIGTERM);
     }
     else if (getCommand == commandSix) {
         if (loadList() != 0) {

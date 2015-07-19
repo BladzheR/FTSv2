@@ -97,14 +97,14 @@ int addFile() {
 
             } else if (result == 0) {
 
-            strcat(pathToFile, fileName);
+                strcat(pathToFile, fileName);
 
-            fileTransferRecv(pathToFile);
+                fileTransferRecv(pathToFile);
 
-            printf("\n\nКлиент успешно добавил файл на сервер:%s\n\n", pathToFile);
-        } else {
-            perror("fileExists:");
-        }
+                printf("\n\nКлиент успешно добавил файл на сервер:%s\n\n", pathToFile);
+            } else {
+                perror("fileExists:");
+            }
         } else {
             return 1;
         }

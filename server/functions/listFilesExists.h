@@ -4,9 +4,9 @@ int listFilesExists() {
     list = fopen("list.xml", "a+");
     if (fgetc(list) == EOF) {
         printf("\nСписок файлов пуст, либо не существует!\nСоздам список,если его нет.\n\n");
-        if(loadList() != 0){
+        if (loadList() != 0) {
             perror("loadList:");
-        }else{
+        } else {
             printf("Обновил список файлов!\n");
         }
     }

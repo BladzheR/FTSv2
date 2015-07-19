@@ -1,4 +1,4 @@
-int fileExists(char *fileName_go){
+int fileExists(char *fileName_go) {
 
     int i = 0, check = 0;
 
@@ -19,7 +19,7 @@ int fileExists(char *fileName_go){
             }
             strcpy(fileName, &fileName[check]);
 
-            if(strcmp(fileName, fileName_go) == 0){
+            if (strcmp(fileName, fileName_go) == 0) {
                 printf("\n%s\n", fileName);
                 check = 1;
                 break;
@@ -33,7 +33,7 @@ int fileExists(char *fileName_go){
     }
     fclose(f);
 
-    if(check == 1){
+    if (check == 1) {
 
         if ((send(sock, &check, sizeof(check), 0)) < 0) {
             perror("send[0]");
@@ -43,7 +43,7 @@ int fileExists(char *fileName_go){
             perror("recv[2]");
         }
 
-        if(check == 1){
+        if (check == 1) {
             return 1;
         }
     }

@@ -36,7 +36,7 @@ int fileTransferRecv() {
         rc = select(sock + 1, &fdr, NULL, NULL, &timeout);    ///ждём данные для чтения в потоке 1 сек.
         i++;
     } while (rc);     ///проверяем результат
-    printf("Получено пакетов:%d.Всего:%lu\n",i , info);
+    printf("Получено пакетов:%d.Всего:%lu\n", i, info);
     fclose(f);
 
     return 0;

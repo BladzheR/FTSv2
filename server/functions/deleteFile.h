@@ -29,7 +29,7 @@ int deleteFile() {
             if (fileName[i] == '\n') {
                 fileName[i] = '\0';
                 i = 0;
-                if (k == number) {break;}
+                if (k == number) { break; }
                 k++;
             }
             else {
