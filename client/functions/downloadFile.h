@@ -1,7 +1,9 @@
+#include <math.h>
+
 int downloadFile() {
 
     int k = 0, i = 0, number = 0, check = 0;
-    char pathToFile[] = pathToLoad;
+    char pathToFile[] = PATH_TO_LOAD;
     char fileName[sizeName];
 
     printf("Введите номер файла который желаете скачать:");
@@ -58,30 +60,34 @@ int downloadFile() {
             perror("recv[10]");
         }
 
-        long info = (fsize / BUF_SIZE) + 1;
+        long info = (long) ceil((float) fsize / 1024);
         printf("Размер файла:%lu\n%lu пакетов будет получено.\n", fsize, info);
 
         //usleep(1);
 
-        int rc;
+/*        int rc;
         fd_set fdr;
         FD_ZERO(&fdr);
         FD_SET(sock, &fdr);
         struct timeval timeout;
         timeout.tv_sec = 1;   ///зададим  структуру времени со значением 1 сек
-        timeout.tv_usec = 0;
+        timeout.tv_usec = 0;*/
 
-        fsize = 0;
+        long fsizenow = 0;
         do {
             rcv_len = recv(sock, buffer, BUF_SIZE, 0);
-            fsize+=rcv_len;
-            printf("\n%lu\n%lu\n", fsize, rcv_len);
+            if (rcv_len == 0) {
+                printf("Ошибка, не удалось полностью получить файл!\n");
+                break;
+            }
+            fsizenow += rcv_len;
+            printf("всего: %lu; получено сейчас: %lu; всего сейчас: %lu \n", fsize, rcv_len, fsizenow);
             fwrite(buffer, 1, (size_t) rcv_len, f);
-            rc = select(sock + 5, &fdr, NULL, NULL, &timeout);    ///ждём данные для чтения в потоке 1 сек.
-        } while (fsize != info && rc );     ///проверяем результат
+            // rc = select(sock + 15, &fdr, NULL, NULL, &timeout);    ///ждём данные для чтения в потоке 1 сек.
+        } while (fsizenow < fsize);     ///проверяем результат
 
         fclose(f);
-        printf("\nФайл успешно скачен!(%s)\n", fileName);
+        printf("Cкачен!(%s)\n", fileName);
     } else {
         printf("В данный момент файла под данным номером не существует.Файл не скачен!\n");
     }

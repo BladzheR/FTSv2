@@ -1,9 +1,5 @@
 /**
 * @author: Sergey Kudryavtsev <bladzher@yandex.ru>
-*  HELP:
-* ...........PC name: /ksergey/
-* ...........Ultrabook name: /bladzher/
-*******************************************************************************
  */
 #define textMenu "\n========================\nМЕНЮ:\n0)Отобразить список файлов\n1)Добавить файл\n2)Удалить файл\n3)Скачать файл\n4)Выход\n5)Выключить сервер\n6)Обновить список файлов\n7)Очистить экран\n8)Поиск\n========================\n"
 #define pathToFolder "files"
@@ -69,6 +65,7 @@ void settingsServer() {
 
     setsockopt(listener, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof yes);
 
+
     if (bind(listener, (struct sockaddr *) &addr, sizeof(struct sockaddr_in)) <
         0) { // связываемся с сетевым устройство. Сейчас это устройство lo - "петля", которое используется для отладки сетевых приложений
         perror("bind");
@@ -89,8 +86,8 @@ void workingServer() {
 
     int counter = 0, number = 0, result = 0, *getCommand = &number;
 
-
-    while (result != 1) { //для подкл.клиентов.
+//result != 1 &&
+    while (result != ERROR_CLIENT_DISCONNECT || result != 1) { //для подкл.клиентов.
 
         if ((sock = accept(listener, NULL, NULL)) <
             0) {// принимаем входные подключение и создаем отделный сокет для каждого нового подключившегося клиента
@@ -128,10 +125,13 @@ void workingServer() {
                     printf("Получена команда от клиента: %d\n", *getCommand);
 
                     result = navigation(*getCommand);
+                    printf("RESULT: %d \n", result);
                     if (result == 1) {
                         close(sock);
                         break;
                     } else if (result == 2) {
+                        break;
+                    } else if (result == ERROR_CLIENT_DISCONNECT) {
                         break;
                     }
                 }
@@ -139,6 +139,7 @@ void workingServer() {
                 close(sock);
         }
     }
+    printf("Клиент завершил работу!\n");
 }
 
 int main(int argc, char *argv[]) {

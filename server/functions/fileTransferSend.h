@@ -5,8 +5,9 @@ int fileTransferSend(char pathToFile[]) {
         perror("fopen");
         return 1;
     }
+
     fseek(f, 0, SEEK_END);
-    long fsize = (int) ftell(f);
+    long fsize = ftell(f);
     rewind(f);
 
     printf("Размер сообщения: %lu\n", fsize);
@@ -15,7 +16,6 @@ int fileTransferSend(char pathToFile[]) {
     printf("%lu пакетов будет отправлено.\n", info);
 
     char buffer[BUF_SIZE];
-    long sended = 0, readed = 0;
 
     if ((send(sock, &fsize, sizeof(fsize), 0)) < 0) {
         perror("send[10]");
@@ -23,17 +23,28 @@ int fileTransferSend(char pathToFile[]) {
 
     usleep(1);
 
-    int i = 0;
-    do {
-        readed = fread(buffer, 1, BUF_SIZE, f);
+    int packages_sends = 0;
+    while (1) {
+        long result = fread(buffer, 1, BUF_SIZE, f);
 
-        if ((send(sock, buffer, (size_t) readed, 0)) < 0) {
-            perror("send[7]");
+        if (ferror(f)) {
+            puts("Ошибка чтения!");
         }
-        sended += readed;
-        i++;
-    } while (sended != fsize);
-    printf("Отправлено пакетов:%d.Всего:%lu\n", i, info);
+
+        if ((send(sock, buffer, (size_t) result, 0)) < 0) {
+            perror("send[7]");
+            return 1;
+        }
+
+        packages_sends++;
+        printf("Отправлен пакет %d (%lu)\n", packages_sends, info);
+
+        if (feof(f)) {
+            break;
+        }
+    }
+
+    printf("Отправлено пакетов %d из %lu\n", packages_sends, info);
     fclose(f);
 
     return 0;

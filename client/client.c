@@ -1,16 +1,14 @@
 /**
 * @author: Sergey Kudryavtsev <bladzher@yandex.ru>
-*  HELP:
-* ...........PC name: /ksergey/
-* ...........Ultrabook name: /bladzher/
-*******************************************************************************
  */
-#define pathToLoad "Загрузки/"
+#define PATH_TO_LOAD "Загрузки/"
 #define sizeName 256
 #define pathToList "list.xml"
 #define BUF_SIZE 1024
 
 char message[1024];
+static char *const SERVER_ADDRESS = "127.0.0.1";
+static const int SERVER_PORT = 3425;
 int sock;                // дескриптор сокета
 
 #include <sys/types.h>
@@ -37,12 +35,12 @@ void settingsClient() {
     struct sockaddr_in addr; // структура с адресом
     memset(&addr, 0, sizeof(struct sockaddr_in));
     addr.sin_family = AF_INET; // домены Internet
-    addr.sin_port = htons(3425); // Порт
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");    //addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    addr.sin_port = htons(SERVER_PORT); // Порт
+    addr.sin_addr.s_addr = inet_addr(SERVER_ADDRESS);    //addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     /*END*/
 
     int check;
-    if ((check = inet_pton(addr.sin_family, "127.0.0.1", &addr.sin_addr)) < 0) {
+    if ((check = inet_pton(addr.sin_family, SERVER_ADDRESS, &addr.sin_addr)) < 0) {
         perror("Error: первый параметр не относится к категории корректных адресов.");
     } else if (!check) {
         perror("Error: второй параметр не содержит корректного IP-адреса.");
@@ -78,7 +76,7 @@ void workingClient() {
 
         do {
             printf("Введите команду серверу[0-7]:");
-            if ((scanf("%d", &number)) == 0) {
+            if (scanf("%d", &number) == 0) {
                 printf("\n Ошибока ввода :) Как-нибудь в другой раз ...\nЖду 2 секунды и закругляюсь...\n");
                 number = 4;
                 sleep(2);

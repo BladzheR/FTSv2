@@ -1,9 +1,12 @@
 enum {
-    commandZero, commandOne, commandTwo, commandTree, commandFour, commandFive, commandSix
+    commandDisplayListFiles, commandAddFile, commandDeleteFile,
+    commandListFilesExists, commandFour, commandFive, commandSix
 };
 
+static const int ERROR_CLIENT_DISCONNECT = 99999;
+
 int navigation(int getCommand) {
-    if (getCommand == commandZero) {
+    if (getCommand == commandDisplayListFiles) {
 
         if (listFilesExists() != 0) {
             perror("fileExists:");
@@ -18,7 +21,7 @@ int navigation(int getCommand) {
         }
 
     }
-    else if (getCommand == commandOne) {
+    else if (getCommand == commandAddFile) {
 
         if (loadList() != 0) {
             perror("loadList");
@@ -28,7 +31,7 @@ int navigation(int getCommand) {
             perror("addFile:");
         }
     }
-    else if (getCommand == commandTwo) {
+    else if (getCommand == commandDeleteFile) {
 
         if (deleteFile() != 0) {
             perror("deleteFile:");
@@ -37,7 +40,7 @@ int navigation(int getCommand) {
             perror("loadList:");
         }
     }
-    else if (getCommand == commandTree) {
+    else if (getCommand == commandListFilesExists) {
 
         if (listFilesExists() != 0) {
             perror("fileExists:");
@@ -57,9 +60,12 @@ int navigation(int getCommand) {
             perror("loadList:");
         }
 
-        if (downloadFile() != 0) {
-            perror("downloadFile:");
+        int result = downloadFile();
+        if (result == 1) {
+            printf("Клиент покинул нас...\n");
+            return ERROR_CLIENT_DISCONNECT;
         }
+
     }
     else if (getCommand == commandFour) {
         system("clear");

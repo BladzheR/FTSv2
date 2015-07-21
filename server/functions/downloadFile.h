@@ -55,9 +55,12 @@ int downloadFile() {
         struct stat st;
 
         stat(pathToFile, &st);
-        printf("Size: %d bytes\n\n", (int) st.st_size);
+        printf("Size: %lu bytes\n\n", (long) st.st_size);
 
-        fileTransferSend(pathToFile);
+        if (fileTransferSend(pathToFile) == 1) {
+            return 1;
+        }
+
 
         printf("\nКлиент скачал файл:%s\n", pathToFile);
 
