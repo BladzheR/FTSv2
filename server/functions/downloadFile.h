@@ -1,4 +1,4 @@
-int downloadFile() {
+int downloadFile(int sock) {
 
     int i = 0, k = 0, q = 0, number = 0;
     char fileName[sizeName], pathToFile[] = pathToFolders;
@@ -57,7 +57,7 @@ int downloadFile() {
         stat(pathToFile, &st);
         printf("Size: %lu bytes\n\n", (long) st.st_size);
 
-        if (fileTransferSend(pathToFile) == 1) {
+        if (fileTransferSend(sock, pathToFile) == 1) {
             return 1;
         }
 

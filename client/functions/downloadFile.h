@@ -45,6 +45,7 @@ int downloadFile() {
         strcpy(fileName, &fileName[k]);
         strcat(pathToFile, fileName);
 
+
         fclose(f0);
 
         long buffer[BUF_SIZE], rcv_len = 0;
@@ -63,15 +64,6 @@ int downloadFile() {
         long info = (long) ceil((float) fsize / 1024);
         printf("Размер файла:%lu\n%lu пакетов будет получено.\n", fsize, info);
 
-        //usleep(1);
-
-/*        int rc;
-        fd_set fdr;
-        FD_ZERO(&fdr);
-        FD_SET(sock, &fdr);
-        struct timeval timeout;
-        timeout.tv_sec = 1;   ///зададим  структуру времени со значением 1 сек
-        timeout.tv_usec = 0;*/
 
         long fsizenow = 0;
         do {
@@ -83,7 +75,6 @@ int downloadFile() {
             fsizenow += rcv_len;
             printf("всего: %lu; получено сейчас: %lu; всего сейчас: %lu \n", fsize, rcv_len, fsizenow);
             fwrite(buffer, 1, (size_t) rcv_len, f);
-            // rc = select(sock + 15, &fdr, NULL, NULL, &timeout);    ///ждём данные для чтения в потоке 1 сек.
         } while (fsizenow < fsize);     ///проверяем результат
 
         fclose(f);

@@ -9,8 +9,6 @@
 #define BUF_SIZE 1024
 
 int numberOfFiles = 0;
-int sock, listener;      // дескрипторы сокетов
-int pid;
 
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -36,12 +34,82 @@ int pid;
 void runDaemon() {
     pid_t pidDaemonFTS = daemon(0, 0); //     демон - запуск отдельно от терминала...
     if (pidDaemonFTS == -1) {
-        //close(ls);
         perror("demonize error!\n");
     }
 }
 
-void settingsServer() {
+/*
+ * Написать конфиг для настройки клиент-сервера
+ */
+
+
+void workingServer(int sock, int listener) {
+
+    int counter = 0, number = 0, result = 0, *command = &number;
+
+    while (result != ERROR_CLIENT_DISCONNECT || result != 1) { //для подкл.клиентов.
+
+        if ((sock = accept(listener, NULL, NULL)) <
+            0) {// принимаем входные подключение и создаем отделный сокет для каждого нового подключившегося клиента
+            perror("accept");
+            close(listener);
+            exit(3);
+        }
+
+        pid_t pid = fork();
+        switch (pid) {
+            case -1:
+                perror("fork");
+                exit(1);
+            case 0:
+                close(listener);
+
+                printf("К серверу подключился клиент!\n");
+
+                while (1) {
+                    if (counter == 0) {
+                        send(sock, textMenu, sizeof(textMenu), 0);
+                        counter++;
+                    }
+                    do {
+                        printf("Ожидаем команду:\n");
+                        if ((recv(sock, &number, sizeof(number), 0)) < 0) {
+                            perror("recv[0]");
+                        }
+                        if (*command < 7 && *command >= 0) {
+                            break;
+                        } else {
+                            printf("Получена неверная команда!\n");
+                        }
+                    } while (1);
+                    printf("Получена команда от клиента: %d\n", *command);
+
+                    result = navigation(sock, *command, pid);
+                    printf("RESULT: %d \n", result);
+                    if (result == 1) {
+                        close(sock);
+                        break;
+                    } else if (result == 2) {
+                        break;
+                    } else if (result == ERROR_CLIENT_DISCONNECT) {
+                        break;
+                    }
+                }
+            default:
+                close(sock);
+        }
+    }
+    printf("Клиент завершил работу!\n");
+}
+
+int main(int argc, char *argv[]) {
+
+    if (argc == 2 && strcmp(argv[1], "daemon") == 0) {
+        printf("%s", argv[1]);
+        runDaemon();
+    }
+
+    int sock = 0, listener = 0;// дескрипторы сокетов
 
     if ((listener = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {// создаем сокет для входных подключений
         perror("socket");
@@ -80,77 +148,9 @@ void settingsServer() {
     }
 
     printf("Сервер запущен!\n\nОжидание подключения:\n");
-}
 
-void workingServer() {
 
-    int counter = 0, number = 0, result = 0, *getCommand = &number;
-
-//result != 1 &&
-    while (result != ERROR_CLIENT_DISCONNECT || result != 1) { //для подкл.клиентов.
-
-        if ((sock = accept(listener, NULL, NULL)) <
-            0) {// принимаем входные подключение и создаем отделный сокет для каждого нового подключившегося клиента
-            perror("accept");
-            close(listener);
-            exit(3);
-        }
-
-        pid = fork();
-        switch (pid) {
-            case -1:
-                perror("fork");
-                exit(1);
-            case 0:
-                close(listener);
-
-                printf("К серверу подключился клиент!\n");
-
-                while (1) {
-                    if (counter == 0) {
-                        send(sock, textMenu, sizeof(textMenu), 0);
-                        counter++;
-                    }
-                    do {
-                        printf("Ожидаем команду:\n");
-                        if ((recv(sock, &number, sizeof(number), 0)) < 0) {
-                            perror("recv[0]");
-                        }
-                        if (*getCommand < 7 && *getCommand >= 0) {
-                            break;
-                        } else {
-                            printf("Получена неверная команда!\n");
-                        }
-                    } while (1);
-                    printf("Получена команда от клиента: %d\n", *getCommand);
-
-                    result = navigation(*getCommand);
-                    printf("RESULT: %d \n", result);
-                    if (result == 1) {
-                        close(sock);
-                        break;
-                    } else if (result == 2) {
-                        break;
-                    } else if (result == ERROR_CLIENT_DISCONNECT) {
-                        break;
-                    }
-                }
-            default:
-                close(sock);
-        }
-    }
-    printf("Клиент завершил работу!\n");
-}
-
-int main(int argc, char *argv[]) {
-
-    if (argc == 2 && strcmp(argv[1], "daemon") == 0) {
-        printf("%s", argv[1]);
-        runDaemon();
-    }
-
-    settingsServer();
-    workingServer();
+    workingServer(sock, listener);
 
     return 0;
 }

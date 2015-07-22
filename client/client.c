@@ -29,7 +29,7 @@ int sock;                // дескриптор сокета
 #include "functions/listFilesExists.h"
 #include "functions/navigation.h"
 
-void settingsClient() {
+void connectingClient() {
 
     /*     Указываем параметры сервера    */
     struct sockaddr_in addr; // структура с адресом
@@ -64,7 +64,7 @@ void settingsClient() {
 
 void workingClient() {
 
-    int counter = 0, number = 0, *getTeam = &number;
+    int counter = 0, number = 0, *command = &number;
     while (1) {
 
         if (counter == 0) {
@@ -90,9 +90,9 @@ void workingClient() {
             perror("send[0]");
         }
 
-        printf("%d\n", *getTeam);
+        printf("%d\n", *command);
 
-        if (navigation(*getTeam) == 1) {
+        if (navigation(*command) == 1) {
             remove(pathToList);
             break;
         }
@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
         printf("\nВы вошли под правами Администратора!\n\n");
     }
 
-    settingsClient();
+    connectingClient();
     workingClient();
 
     return 0;

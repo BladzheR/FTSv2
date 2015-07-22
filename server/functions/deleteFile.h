@@ -1,4 +1,4 @@
-int deleteFile() {
+int deleteFile(int sock) {
 
     int number = 0, i = 0;
 

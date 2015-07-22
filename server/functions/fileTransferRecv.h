@@ -1,4 +1,4 @@
-int fileTransferRecv(char pathToFile[]) {
+int fileTransferRecv(int sock, char pathToFile[]) {
 
     FILE *f;
     if (!(f = fopen(pathToFile, "wb+"))) {

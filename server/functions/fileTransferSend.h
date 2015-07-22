@@ -1,4 +1,4 @@
-int fileTransferSend(char pathToFile[]) {
+int fileTransferSend(int sock, char pathToFile[]) {
 
     FILE *f;
     if (!(f = fopen(pathToFile, "rb"))) {

@@ -1,4 +1,4 @@
-int fileExists(char *fileName_go) {
+int fileExists(int sock, char *fileName_go) {
 
     int i = 0, check = 0;
 

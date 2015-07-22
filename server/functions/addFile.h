@@ -1,4 +1,4 @@
-int addFile() {
+int addFile(int sock) {
 
     int i = 0, result = 0;
     char pathToFile[] = pathToFolders, fileName[sizeName];
@@ -17,7 +17,7 @@ int addFile() {
                 perror("recv[2]");
             }
 
-            result = fileExists(fileName);
+            result = fileExists(sock, fileName);
             if (result == 1) {
 
                 if ((send(sock, &result, sizeof(result), 0)) < 0) {
@@ -88,7 +88,7 @@ int addFile() {
                 perror("recv[2]");
             }
 
-            result = fileExists(fileName);
+            result = fileExists(sock, fileName);
             if (result == 1) {
 
                 if ((send(sock, &result, sizeof(result), 0)) < 0) {
@@ -99,7 +99,7 @@ int addFile() {
 
                 strcat(pathToFile, fileName);
 
-                fileTransferRecv(pathToFile);
+                fileTransferRecv(sock, pathToFile);
 
                 printf("\n\nКлиент успешно добавил файл на сервер:%s\n\n", pathToFile);
             } else {
