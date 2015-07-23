@@ -1,10 +1,16 @@
 /**
 * @author: Sergey Kudryavtsev <bladzher@yandex.ru>
+******************************************************
+*#--Компиляция/Отобразить время компиляции/Запуск--
+*alias Run_server='gcc server.c functions/addFile.c functions/downloadFile.c functions/fileTransferRecv.c functions/fileTransferSend.c functions/loadList.c functions/deleteFile.c functions/fileExitsts.c functions/listFilesExists.c functions/navigation.c -o server -lm && time gcc server.c functions/addFile.c functions/downloadFile.c functions/fileTransferRecv.c functions/fileTransferSend.c functions/loadList.c functions/deleteFile.c functions/fileExitsts.c functions/listFilesExists.c functions/navigation.c -o time && ./server'
+*alias Run_client='gcc client.c -o client -lm && time gcc client.c -o time -lm && ./client'
+*#--end--
+ * ******************************************************
  */
 #define textMenu "\n========================\nМЕНЮ:\n0)Отобразить список файлов\n1)Добавить файл\n2)Удалить файл\n3)Скачать файл\n4)Выход\n5)Выключить сервер\n6)Обновить список файлов\n7)Очистить экран\n8)Поиск\n========================\n"
 
 int numberOfFiles = 0;
-static const int ERROR_CLIENT_DISCONNECT = 99999;
+
 
 #include <netinet/in.h>
 #include <stdlib.h>

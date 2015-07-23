@@ -11,7 +11,7 @@ enum {
 };
 
 extern int numberOfFiles;
-extern const int ERROR_CLIENT_DISCONNECT;
+static const int ERROR_CLIENT_DISCONNECT = 99999;
 
 #define pathToFolder "files"
 #define pathToFolders "files/"

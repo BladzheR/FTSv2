@@ -1,7 +1,6 @@
 #include <sys/socket.h>
 #include <stdio.h>
 #include <string.h>
-#include <bits/stat.h>
 #include <sys/stat.h>
 #include "FTS_server.h"
 
