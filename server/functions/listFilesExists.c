@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include "FTS_server.h"
+
 int listFilesExists() {
 
     FILE *list;

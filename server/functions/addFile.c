@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <sys/socket.h>
+#include <string.h>
+#include "FTS_server.h"
+
 int addFile(int sock) {
 
     int i = 0, result = 0;

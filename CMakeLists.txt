@@ -6,15 +6,15 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES server/server.c client/client.c)
 add_executable(
  FileTransferSystem ${SOURCE_FILES}
- server/functions/addFile.h
- server/functions/deleteFile.h
- server/functions/downloadFile.h
- server/functions/fileTransferRecv.h
- server/functions/fileTransferSend.h
- server/functions/loadList.h
- server/functions/navigation.h
- server/functions/listFilesExists.h
- server/functions/fileExitsts.h
+ server/functions/addFile.c
+ server/functions/deleteFile.c
+ server/functions/downloadFile.c
+ server/functions/fileTransferRecv.c
+ server/functions/fileTransferSend.c
+ server/functions/loadList.c
+ server/functions/navigation.c
+ server/functions/listFilesExists.c
+ server/functions/fileExitsts.c
 
  client/functions/addFile.h
  client/functions/deleteFile.h
@@ -29,4 +29,5 @@ add_executable(
  server/server.c
 
  client/client.c
- )
+
+ server/functions/FTS_server.h)

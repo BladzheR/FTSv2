@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include "FTS_server.h"
+
 int fileTransferSend(int sock, char pathToFile[]) {
 
     FILE *f;

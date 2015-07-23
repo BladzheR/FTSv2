@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <string.h>
+#include <dirent.h>
+#include "FTS_server.h"
+
 int loadList() {
 
     printf("\nИдёт обновления списка файлов...\n");
@@ -20,7 +25,7 @@ int loadList() {
     while ((entry = readdir(dir)) != NULL) {
 
         if (strcmp(entry->d_name, ".") == 0 ||
-                strcmp(entry->d_name, "..") == 0) {
+            strcmp(entry->d_name, "..") == 0) {
             continue;
         }
         fprintf(f, "%d)%s\n", i, entry->d_name);

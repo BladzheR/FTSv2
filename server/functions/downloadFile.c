@@ -1,3 +1,10 @@
+#include <sys/socket.h>
+#include <stdio.h>
+#include <string.h>
+#include <bits/stat.h>
+#include <sys/stat.h>
+#include "FTS_server.h"
+
 int downloadFile(int sock) {
 
     int i = 0, k = 0, q = 0, number = 0;

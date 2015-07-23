@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <string.h>
+#include <sys/socket.h>
+#include "FTS_server.h"
+
 int fileExists(int sock, char *fileName_go) {
 
     int i = 0, check = 0;

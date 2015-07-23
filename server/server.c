@@ -2,34 +2,17 @@
 * @author: Sergey Kudryavtsev <bladzher@yandex.ru>
  */
 #define textMenu "\n========================\nМЕНЮ:\n0)Отобразить список файлов\n1)Добавить файл\n2)Удалить файл\n3)Скачать файл\n4)Выход\n5)Выключить сервер\n6)Обновить список файлов\n7)Очистить экран\n8)Поиск\n========================\n"
-#define pathToFolder "files"
-#define pathToFolders "files/"
-#define pathToList "list.xml"
-#define sizeName 256
-#define BUF_SIZE 1024
 
 int numberOfFiles = 0;
+static const int ERROR_CLIENT_DISCONNECT = 99999;
 
 #include <netinet/in.h>
-#include <sys/socket.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include "functions/loadList.h"
-#include "functions/fileTransferRecv.h"
-#include <signal.h>
-#include <stdlib.h>
-#include "functions/fileTransferSend.h"
-#include "functions/fileExitsts.h"
-#include "functions/addFile.h"
-#include "functions/deleteFile.h"
-#include "functions/downloadFile.h"
-#include "functions/listFilesExists.h"
-#include "functions/navigation.h"
+#include "functions/FTS_server.h"
 
 void runDaemon() {
     pid_t pidDaemonFTS = daemon(0, 0); //     демон - запуск отдельно от терминала...
@@ -56,7 +39,7 @@ void workingServer(int sock, int listener) {
             exit(3);
         }
 
-        pid_t pid = fork();
+        int pid = fork();
         switch (pid) {
             case -1:
                 perror("fork");
@@ -84,7 +67,8 @@ void workingServer(int sock, int listener) {
                     } while (1);
                     printf("Получена команда от клиента: %d\n", *command);
 
-                    result = navigation(sock, *command, pid);
+                    navigation(sock, number, pid);
+                    result = 0;
                     printf("RESULT: %d \n", result);
                     if (result == 1) {
                         close(sock);

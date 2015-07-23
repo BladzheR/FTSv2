@@ -1,3 +1,8 @@
+#include <sys/socket.h>
+#include <stdio.h>
+#include <string.h>
+#include "FTS_server.h"
+
 int deleteFile(int sock) {
 
     int number = 0, i = 0;

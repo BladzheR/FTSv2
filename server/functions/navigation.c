@@ -1,16 +1,15 @@
-enum {
-    commandDisplayListFiles, commandAddFile, commandDeleteFile,
-    commandListFilesExists, commandDisconnectClient, commandDisconnectServer, commandUpdateListFiles
-};
-
-static const int ERROR_CLIENT_DISCONNECT = 99999;
+#include <stdio.h>
+#include <sys/socket.h>
+#include <signal.h>
+#include "FTS_server.h"
 
 void clrscr(void) {
     printf("\033[2J");            /* Clear the entire screen.             */
     printf("\033[0;0f");          /* Move cursor to the top left hand corner*/
 }
 
-int navigation(int sock, int command, pid_t pid) {
+
+int navigation(int sock, int command, int pid) {
 
     switch (command) {
         case commandDisplayListFiles:
