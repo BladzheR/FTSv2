@@ -1,15 +1,11 @@
 /**
 * @author: Sergey Kudryavtsev <bladzher@yandex.ru>
  */
-#define PATH_TO_LOAD "Загрузки/"
-#define sizeName 256
-#define pathToList "list.xml"
-#define BUF_SIZE 1024
+
 
 char message[1024];
 static char *const SERVER_ADDRESS = "127.0.0.1";
 static const int SERVER_PORT = 3425;
-int sock;                // дескриптор сокета
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -19,17 +15,9 @@ int sock;                // дескриптор сокета
 #include <stdio.h>
 #include <string.h>
 #include <arpa/inet.h>
-#include "functions/fileTransferRecv.h"
-#include "functions/fileTransferSend.h"
-#include "functions/displayListFiles.h"
-#include "functions/deleteFile.h"
-#include "functions/downloadFile.h"
-#include "functions/fileExitsts.h"
-#include "functions/addFile.h"
-#include "functions/listFilesExists.h"
-#include "functions/navigation.h"
+#include "functions/FTS_client.h"
 
-void connectingClient() {
+void connectingClient(int sock) {
 
     /*     Указываем параметры сервера    */
     struct sockaddr_in addr; // структура с адресом
@@ -62,7 +50,7 @@ void connectingClient() {
 
 }
 
-void workingClient() {
+void workingClient(int sock) {
 
     int counter = 0, number = 0, *command = &number;
     while (1) {
@@ -92,7 +80,7 @@ void workingClient() {
 
         printf("%d\n", *command);
 
-        if (navigation(*command) == 1) {
+        if (navigation(sock, *command) == 1) {
             remove(pathToList);
             break;
         }
@@ -106,8 +94,10 @@ int main(int argc, char *argv[]) {
         printf("\nВы вошли под правами Администратора!\n\n");
     }
 
-    connectingClient();
-    workingClient();
+    int sock = NULL;
+
+    connectingClient(sock);
+    workingClient(sock);
 
     return 0;
 }

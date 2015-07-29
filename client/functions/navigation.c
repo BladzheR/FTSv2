@@ -1,24 +1,24 @@
-enum {
-    commandDisplayListFiles, commandAddFile,
-    commandDeleteFile, commandListFilesExists, commandDisconnectClient,
-    commandDisconnectServer, commandUpdateListFiles, commandClearScreen
-};
+#include <stdio.h>
+#include "FTS_client.h"
 
 void clrscr(void) {
     printf("\033[2J");            /* Clear the entire screen.             */
     printf("\033[0;0f");          /* Move cursor to the top left hand corner*/
 }
 
-int navigation(int command) {
+int navigation(int sock, int command) {
 
     switch (command) {
         case commandDisplayListFiles:
+
+            fileTransferRecv(sock);
+
             if (displayListFiles() != 0) {
                 perror("displayListFiles:");
             }
             break;
         case commandAddFile:
-            if (addFile() != 0) {
+            if (addFile(sock) != 0) {
                 perror("addFiles:");
             }
             break;
@@ -28,11 +28,11 @@ int navigation(int command) {
             }
             break;
         case commandListFilesExists:
-            if (listFilesExists() != 0) {
+            if (listFilesExists(sock) != 0) {
                 perror("fileExists");
             }
 
-            int result = downloadFile();
+            int result = downloadFile(sock);
 
             if (result != 0) {
                 perror("downloadFile");

@@ -1,6 +1,10 @@
 #include <math.h>
+#include <stdio.h>
+#include <sys/socket.h>
+#include <string.h>
+#include "FTS_client.h"
 
-int downloadFile() {
+int downloadFile(int sock) {
 
     int k = 0, i = 0, number = 0, check = 0;
     char pathToFile[] = PATH_TO_LOAD;

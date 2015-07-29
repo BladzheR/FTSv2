@@ -1,4 +1,9 @@
-int fileTransferSend(char pathToFile[]) {
+#include <stdio.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include "FTS_client.h"
+
+int fileTransferSend(int sock, char pathToFile[]) {
 
     long sended = 0, readed = 0;
     char buffer[BUF_SIZE];

@@ -1,4 +1,7 @@
-int deleteFile() {
+#include <sys/socket.h>
+#include <stdio.h>
+
+int deleteFile(int sock) {
 
     int number = 0, i = 0;
 

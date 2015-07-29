@@ -1,4 +1,8 @@
-int listFilesExists() {
+#include <stdio.h>
+#include <sys/socket.h>
+#include "FTS_client.h"
+
+int listFilesExists(int sock) {
 
     int proof = 0;
     FILE *list;
@@ -9,7 +13,7 @@ int listFilesExists() {
         if ((send(sock, &proof, sizeof(proof), 0)) < 0) {
             perror("send[0.0]");
         }
-        fileTransferRecv();
+        fileTransferRecv(sock);
     } else {
         proof = 0;
         if ((send(sock, &proof, sizeof(proof), 0)) < 0) {

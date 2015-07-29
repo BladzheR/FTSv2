@@ -16,18 +16,18 @@ add_executable(
  server/functions/listFilesExists.c
  server/functions/fileExitsts.c
 
- client/functions/addFile.h
- client/functions/deleteFile.h
- client/functions/downloadFile.h
- client/functions/fileTransferRecv.h
- client/functions/fileTransferSend.h
- client/functions/navigation.h
- client/functions/displayListFiles.h
- client/functions/listFilesExists.h
- client/functions/fileExitsts.h
+ client/functions/addFile.c
+ client/functions/deleteFile.c
+ client/functions/downloadFile.c
+ client/functions/fileTransferRecv.c
+ client/functions/fileTransferSend.c
+ client/functions/navigation.c
+ client/functions/displayListFiles.c
+ client/functions/listFilesExists.c
+ client/functions/fileExists.c
 
  server/server.c
 
  client/client.c
 
- server/functions/FTS_server.h)
+ server/functions/FTS_server.h client/functions/FTS_client.h)

@@ -1,6 +1,7 @@
+#include <stdio.h>
+#include <string.h>
+#include "FTS_client.h"
 int displayListFiles() {
-
-    fileTransferRecv();
 
     FILE *f;
     if (!(f = fopen(pathToList, "rb"))) {

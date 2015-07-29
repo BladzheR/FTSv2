@@ -1,4 +1,7 @@
-int fileExists() {
+#include <sys/socket.h>
+#include <stdio.h>
+
+int fileExists(int sock) {
 
     int i = 0;
 

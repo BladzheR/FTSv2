@@ -1,4 +1,9 @@
-int addFile() {
+#include <stdio.h>
+#include <sys/socket.h>
+#include <string.h>
+#include "FTS_client.h"
+
+int addFile(int sock) {
 
     /*
      * Доработать 2)Ввести свой путь!!!
@@ -40,14 +45,14 @@ int addFile() {
                 perror("send[2]");
             }
 
-            result = fileExists();
+            result = fileExists(sock);
             if (result == 1) {
 
                 return 0;
 
             } else if (result == 0) {
 
-                fileTransferSend(pathToFile);
+                fileTransferSend(sock, pathToFile);
                 printf("\nФайл успешно добавлен на сервер!\n");
 
             } else {
@@ -84,14 +89,14 @@ int addFile() {
                 perror("send[2]");
             }
 
-            result = fileExists();
+            result = fileExists(sock);
             if (result == 1) {
                 fclose(f);
                 return 0;
 
             } else if (result == 0) {
 
-                fileTransferSend(pathToFile);
+                fileTransferSend(sock, pathToFile);
 
                 printf("Файл успешно добавлен!\n");
 
