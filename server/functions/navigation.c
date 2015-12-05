@@ -10,7 +10,7 @@ void clrscr(void) {
 
 
 int navigation(int sock, int command, int pid) {
-
+    int check = 0;
     switch (command) {
         case commandDisplayListFiles:
             if (listFilesExists() != 0) {
@@ -43,16 +43,15 @@ int navigation(int sock, int command, int pid) {
             }
             break;
         case commandListFilesExists:
+
             if (listFilesExists() != 0) {
                 perror("fileExists:");
             }
-
             int proof = 0;
             if ((recv(sock, &proof, sizeof(proof), 0)) < 0) {
                 perror("recv[0]");
             }
             if (proof == 1) {
-
                 if (fileTransferSend(sock, pathToList) != 0) {
                     perror("fileTransferSend:");
                 }
@@ -60,13 +59,14 @@ int navigation(int sock, int command, int pid) {
             if (loadList() != 0) {
                 perror("loadList:");
             }
-
             int result = downloadFile(sock);
+            printf("result: %d\n", result);
             if (result == 1) {
                 printf("Клиент покинул нас...\n");
                 return ERROR_CLIENT_DISCONNECT;
             }
             break;
+
         case commandDisconnectClient:
             clrscr();
             printf("Клиент отключился!\n");
@@ -77,8 +77,15 @@ int navigation(int sock, int command, int pid) {
             printf("Получена команда на принудительное завершение работы сервера!\n");
             kill(pid, SIGTERM);
         case commandUpdateListFiles:
+
             if (loadList() != 0) {
+                check = 1;
                 perror("loadList:");
+            } else {
+                check = 0;
+            }
+            if ((send(sock, &check, sizeof(check), 0)) < 0) {
+                perror("send[0]");
             }
             break;
         default:

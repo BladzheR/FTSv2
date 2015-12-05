@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <sys/socket.h>
 #include "FTS_client.h"
 
 void clrscr(void) {
@@ -6,8 +7,8 @@ void clrscr(void) {
     printf("\033[0;0f");          /* Move cursor to the top left hand corner*/
 }
 
-int navigation(int sock, int command) {
-
+int navigation(int sock, int command, int root) {
+    int check = 0;
     switch (command) {
         case commandDisplayListFiles:
 
@@ -47,8 +48,14 @@ int navigation(int sock, int command) {
             printf("Вы успешно завершили работу сервера и программы клиент!\n");
             return 1;
         case commandUpdateListFiles:
-            printf("\nСписок файлов обновлен!\n");
-            //Добавить проверку!!!
+            if ((recv(sock, &check, sizeof(check), 0)) < 0) {
+                perror("recv[2]");
+            }
+            if (check == 0) {
+                puts("\nСписок файлов обновлен!\n");
+            } else {
+                puts("\nСписок файлов не обновлен!\n");
+            }
             break;
         case commandClearScreen:
             clrscr();

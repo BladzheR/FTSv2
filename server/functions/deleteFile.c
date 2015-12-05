@@ -5,6 +5,7 @@
 
 int deleteFile(int sock) {
 
+    extern int numberOfFiles;
     int number = 0, i = 0;
 
     if ((recv(sock, &number, sizeof(number), 0)) < 0) {
@@ -28,7 +29,7 @@ int deleteFile(int sock) {
         }
         i = 0;
         int k = 0;
-        char fileName[sizeName];
+        char fileName[SIZE_NAME];
         while ((fileName[i] = (char) fgetc(f0)) != EOF) {
 
             if (fileName[i] == '\n') {

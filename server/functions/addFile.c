@@ -6,7 +6,7 @@
 int addFile(int sock) {
 
     int i = 0, result = 0;
-    char pathToFile[] = pathToFolders, fileName[sizeName];
+    char pathToFile[] = pathToFolders, fileName[SIZE_NAME];
 
     if ((recv(sock, &i, sizeof(i), 0)) < 0) {
         perror("recv[1]");

@@ -2,15 +2,14 @@
 * @author: Sergey Kudryavtsev <bladzher@yandex.ru>
 ******************************************************
 *#--Компиляция/Отобразить время компиляции/Запуск--
-*alias Run_server='gcc server.c functions/addFile.c functions/downloadFile.c functions/fileTransferRecv.c functions/fileTransferSend.c functions/loadList.c functions/deleteFile.c functions/fileExitsts.c functions/listFilesExists.c functions/navigation.c -o server -lm && time gcc server.c functions/addFile.c functions/downloadFile.c functions/fileTransferRecv.c functions/fileTransferSend.c functions/loadList.c functions/deleteFile.c functions/fileExitsts.c functions/listFilesExists.c functions/navigation.c -o time && ./server'
-*alias Run_client='gcc client.c -o client -lm && time gcc client.c -o time -lm && ./client'
+#--Компиляция/Отобразить время компиляции/Запуск--
+alias Run_server='gcc functions/navigation.c server.c functions/addFile.c functions/downloadFile.c functions/fileTransferRecv.c functions/fileTransferSend.c functions/loadList.c functions/deleteFile.c functions/fileExitsts.c functions/listFilesExists.c  -o server -lm && time gcc server.c functions/addFile.c functions/downloadFile.c functions/fileTransferRecv.c functions/fileTransferSend.c functions/loadList.c functions/deleteFile.c functions/fileExitsts.c functions/listFilesExists.c functions/navigation.c -o time && ./server'
+alias Run_client='gcc client.c functions/addFile.c functions/deleteFile.c functions/displayListFiles.c functions/downloadFile.c functions/fileExists.c functions/fileTransferRecv.c functions/fileTransferSend.c functions/listFilesExists.c functions/navigation.c -o client -lm && time gcc client.c functions/addFile.c functions/deleteFile.c functions/displayListFiles.c functions/downloadFile.c functions/fileExists.c functions/fileTransferRecv.c functions/fileTransferSend.c functions/listFilesExists.c functions/navigation.c -o time -lm && ./client'
+#--end--
 *#--end--
  * ******************************************************
  */
 #define textMenu "\n========================\nМЕНЮ:\n0)Отобразить список файлов\n1)Добавить файл\n2)Удалить файл\n3)Скачать файл\n4)Выход\n5)Выключить сервер\n6)Обновить список файлов\n7)Очистить экран\n8)Поиск\n========================\n"
-
-int numberOfFiles = 0;
-
 
 #include <netinet/in.h>
 #include <stdlib.h>
@@ -19,6 +18,8 @@ int numberOfFiles = 0;
 #include <stdio.h>
 #include <unistd.h>
 #include "functions/FTS_server.h"
+
+int numberOfFiles = 0;
 
 void runDaemon() {
     pid_t pidDaemonFTS = daemon(0, 0); //     демон - запуск отдельно от терминала...
@@ -31,12 +32,11 @@ void runDaemon() {
  * Написать конфиг для настройки клиент-сервера
  */
 
-
 void workingServer(int sock, int listener) {
 
     int counter = 0, number = 0, result = 0, *command = &number;
 
-    while (result != ERROR_CLIENT_DISCONNECT || result != 1) { //для подкл.клиентов.
+    while (1) { //для подкл.клиентов.
 
         if ((sock = accept(listener, NULL, NULL)) <
             0) {// принимаем входные подключение и создаем отделный сокет для каждого нового подключившегося клиента
@@ -65,31 +65,32 @@ void workingServer(int sock, int listener) {
                         if ((recv(sock, &number, sizeof(number), 0)) < 0) {
                             perror("recv[0]");
                         }
-                        if (*command < 7 && *command >= 0) {
+                        if (*command < 7 && *command >= -1) {
                             break;
                         } else {
                             printf("Получена неверная команда!\n");
                         }
                     } while (1);
                     printf("Получена команда от клиента: %d\n", *command);
+                    if (*command != -1) {
+                        result = navigation(sock, number, pid);
+                    } else {
+                        counter = 0;
+                    }
 
-                    navigation(sock, number, pid);
-                    result = 0;
+                    printf("counter: %d\n", counter);
                     printf("RESULT: %d \n", result);
                     if (result == 1) {
                         close(sock);
-                        break;
-                    } else if (result == 2) {
-                        break;
-                    } else if (result == ERROR_CLIENT_DISCONNECT) {
-                        break;
+                        exit(0);
+                    } else if (result == ERROR_CLIENT_DISCONNECT || result == 2) {
+                        exit(0);
                     }
                 }
             default:
                 close(sock);
         }
     }
-    printf("Клиент завершил работу!\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -98,6 +99,7 @@ int main(int argc, char *argv[]) {
         printf("%s", argv[1]);
         runDaemon();
     }
+
 
     int sock = 0, listener = 0;// дескрипторы сокетов
 

@@ -32,6 +32,6 @@ extern int fileTransferSend(int sock, char pathToFile[]);
 
 extern int listFilesExists(int sock);
 
-extern int navigation(int sock, int command);
+extern int navigation(int sock, int command, int root);
 
 #endif //FILETRANSFERSYSTEM_FTS_CLIENT_H

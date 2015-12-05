@@ -10,14 +10,13 @@ enum {
     commandListFilesExists, commandDisconnectClient, commandDisconnectServer, commandUpdateListFiles
 };
 
-extern int numberOfFiles;
 static const int ERROR_CLIENT_DISCONNECT = 99999;
 
 #define pathToFolder "files"
 #define pathToFolders "files/"
 #define pathToList "list.xml"
-#define sizeName 256
-#define BUF_SIZE 1024
+static const int SIZE_NAME = 256;
+static const int BUF_SIZE = 1024;
 
 
 extern int navigation(int sock, int command, int pid);

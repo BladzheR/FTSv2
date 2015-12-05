@@ -5,6 +5,8 @@
 
 int loadList() {
 
+    extern int numberOfFiles;
+
     printf("\nИдёт обновления списка файлов...\n");
 
     DIR *dir;
